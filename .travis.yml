@@ -1,0 +1,21 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t pushpen/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run pushpen/react-test npm test -- --coverage
+
+after_success:
+  - docker build -t pushpen/multi-client ./client
+  - docker build -t pushpen/multi-nginx ./nginx
+  - docker build -t pushpen/multi-server ./server
+  - docker build -t pushpen/multi-worker ./worker
+
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push pushpen/multi-client
+  - docker push pushpen/multi-nginxs
+  - docker push pushpen/multi-server
+  - docker push pushpen/multi-worker
