@@ -12,11 +12,11 @@ app.use(bodyParser.json());
 const { Client } = require("pg");
 
 const client = new Client({
-  user: "postgres",
-  host: "postgres",
-  database: "postgres",
-  password: "postgres1",
-  port: 5432,
+  user: PGUSER,
+  host: PGHOST,
+  database: PGDATABASE,
+  password: PGPASSWORD,
+  port: PGPORT,
 });
 
 console.log("Hiiiiiiiii");
